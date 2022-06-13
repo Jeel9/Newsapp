@@ -1,4 +1,6 @@
 class CategoryModel {
-  var categoryname;
+  late String categoryname;
   late String imagename;
+
+  //CategoryModel({required this.categoryname, required this.imagename});
 }

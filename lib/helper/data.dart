@@ -8,26 +8,31 @@ List<CategoryModel> getCategory() {
   type.categoryname = "General";
   type.imagename = "Assets/images/General.jpeg";
   array.add(type);
+  type = new CategoryModel();
 
   //---2---
   type.categoryname = "Business";
   type.imagename = "Assets/images/Business.jpeg";
   array.add(type);
+  type = new CategoryModel();
 
   //---3---
   type.categoryname = "Entertainment";
   type.imagename = "Assets/images/Entertainment.jpeg";
   array.add(type);
+  type = new CategoryModel();
 
   //---4---
   type.categoryname = "Sports";
   type.imagename = "Assets/images/Sports.jpeg";
   array.add(type);
+  type = new CategoryModel();
 
   //---5---
   type.categoryname = "Celebrity";
   type.imagename = "Assets/images/celebrity.jpeg";
   array.add(type);
+  type = new CategoryModel();
 
   return array;
 }

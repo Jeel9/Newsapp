@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _loading = false;
-  int i = 0;
+
   List<CategoryModel> arr = <CategoryModel>[];
 
   @override
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Jeels",
+              "Super",
               style: TextStyle(
                 color: Color(0xFF1A1A1A),
               ),
@@ -92,8 +92,8 @@ class CategoryCard extends StatelessWidget {
   final image, name;
 
   CategoryCard({
-    this.image,
-    this.name,
+    required this.image,
+    required this.name,
   });
 
   @override
@@ -104,7 +104,7 @@ class CategoryCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
                 image,
                 height: 72.0,
@@ -112,8 +112,48 @@ class CategoryCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            Container(
+              alignment: Alignment.center,
+              height: 72.0,
+              width: 128.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Color(0x301A1A1A),
+              ),
+              child: Text(
+                name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  final image, title, desc;
+
+  NewsCard({
+    required this.image,
+    required this.title,
+    required this.desc,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Image.asset(image),
+          Text(title),
+          Text(desc),
+        ],
       ),
     );
   }
