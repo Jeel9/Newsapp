@@ -11,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _loading = false;
+  int i = 0;
   List<CategoryModel> arr = <CategoryModel>[];
 
   @override
@@ -27,7 +28,6 @@ class _HomePageState extends State<HomePage> {
       //
       //---App Bar---
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -59,6 +59,29 @@ class _HomePageState extends State<HomePage> {
           : SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: <Widget>[
+//
+                    //---Categories---
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Container(
+                        height: 72.0,
+                        child: ListView.builder(
+                          itemCount: arr.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return CategoryCard(
+                              image: arr[index].imagename,
+                              name: arr[index].categoryname,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
@@ -67,22 +90,30 @@ class _HomePageState extends State<HomePage> {
 
 class CategoryCard extends StatelessWidget {
   final image, name;
-  CategoryCard(
+
+  CategoryCard({
     this.image,
     this.name,
-  );
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
-        children: <Widget>[
-          Image.asset(
-            image,
-            height: 100.0,
-            width: 80.0,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(right: 12.0),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: Image.asset(
+                image,
+                height: 72.0,
+                width: 128.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

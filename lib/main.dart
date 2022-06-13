@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white,
+        appBarTheme: AppBarTheme(color: Colors.white),
       ),
       home: HomePage(),
     );
