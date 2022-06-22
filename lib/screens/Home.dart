@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:news_app/helper/data.dart';
+import 'package:news_app/helper/news.dart';
+import 'package:news_app/models/article_model.dart';
 import 'package:news_app/models/category_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,22 +10,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<CategoryModel> arr = <CategoryModel>[];
+  List<ArticleModel> arr2 = <ArticleModel>[];
+
   bool _loading = false;
 
-  List<CategoryModel> arr = <CategoryModel>[];
+  getNews() async {
+    News newsclass = News();
+    await newsclass.newsfunc();
+    arr2 = newsclass.array;
+    setState(() {
+      _loading = false;
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     arr = getCategory();
+    getNews();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF6F6F6),
-      //
+//
       //---App Bar---
       appBar: AppBar(
         title: Row(
@@ -48,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         ),
         elevation: 0.0,
       ),
-      //
+//
       //---Body---
       body: _loading
           ? Center(
@@ -80,6 +91,25 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+//
+                    //---Newscards---
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: Container(
+                        child: ListView.builder(
+                          itemCount: arr2.length,
+                          shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
+                          itemBuilder: (context, i) {
+                            return NewsCard(
+                              image: arr2[i].imageurl,
+                              title: arr2[i].title,
+                              desc: arr2[i].desc,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -89,7 +119,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CategoryCard extends StatelessWidget {
-  final image, name;
+  final String image, name;
 
   CategoryCard({
     required this.image,
@@ -98,38 +128,43 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 12.0),
-        child: Stack(
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                image,
-                height: 72.0,
-                width: 128.0,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              height: 72.0,
-              width: 128.0,
-              decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () {
+        //Navigator.push(context, route)
+      },
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(right: 12.0),
+          child: Stack(
+            children: <Widget>[
+              ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                color: Color(0x301A1A1A),
-              ),
-              child: Text(
-                name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14.0,
+                child: Image.asset(
+                  image,
+                  height: 72.0,
+                  width: 128.0,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+              Container(
+                alignment: Alignment.center,
+                height: 72.0,
+                width: 128.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color(0x301A1A1A),
+                ),
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -137,7 +172,7 @@ class CategoryCard extends StatelessWidget {
 }
 
 class NewsCard extends StatelessWidget {
-  final image, title, desc;
+  final String image, title, desc;
 
   NewsCard({
     required this.image,
@@ -148,11 +183,53 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 16.0),
       child: Column(
         children: <Widget>[
-          Image.asset(image),
-          Text(title),
-          Text(desc),
+          //
+          //--Card Box--
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+
+            //
+            //--Content Column--
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(image),
+                  ),
+                  //--Padding--
+                  SizedBox(height: 12),
+                  //
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Color(0xFF1A1A1A),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                    ),
+                  ),
+                  //--Padding--
+                  SizedBox(height: 8),
+                  //
+                  Text(
+                    desc,
+                    style: TextStyle(
+                      color: Color(0xFF4F4F4F),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
