@@ -35,30 +35,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F6F6),
+      backgroundColor: Color(0xFFF0F0F0),
 //
       //---App Bar---
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Super",
-              style: TextStyle(
-                color: Color(0xFF1A1A1A),
-              ),
-            ),
-            Text(
-              "News",
-              style: TextStyle(
-                color: Color(0xFFE63B3B),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-        elevation: 0.0,
-      ),
+      appBar: newAppBar(),
 //
       //---Body---
       body: _loading
@@ -67,55 +47,79 @@ class _HomePageState extends State<HomePage> {
                 child: CircularProgressIndicator(),
               ),
             )
-          : SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: <Widget>[
-//
-                    //---Categories---
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Container(
-                        height: 72.0,
-                        child: ListView.builder(
-                          itemCount: arr.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return CategoryCard(
-                              image: arr[index].imagename,
-                              name: arr[index].categoryname,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-//
-                    //---Newscards---
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24.0),
-                      child: Container(
-                        child: ListView.builder(
-                          itemCount: arr2.length,
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (context, i) {
-                            return NewsCard(
-                              image: arr2[i].imageurl,
-                              title: arr2[i].title,
-                              desc: arr2[i].desc,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+          : Column(
+              children: <Widget>[
+                //
+                //---Categories---
+                Container(
+                  color: Colors.white,
+                  height: 88,
+                  child: ListView.builder(
+                    itemCount: arr.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return CategoryCard(
+                        image: arr[index].imagename,
+                        name: arr[index].categoryname,
+                      );
+                    },
+                  ),
                 ),
-              ),
+
+                //
+                //---Newscards---
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListView.builder(
+                      itemCount: arr2.length,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, i) {
+                        return NewsCard(
+                          image: arr2[i].imageurl,
+                          title: arr2[i].title,
+                          desc: arr2[i].desc,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
     );
   }
+
+  // --- AppBar Method ---
+  AppBar newAppBar() {
+    return AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Super",
+            style: TextStyle(
+              color: Color(0xFF1A1A1A),
+              fontStyle: FontStyle.italic,
+              fontSize: 20,
+            ),
+          ),
+          Text(
+            "News",
+            style: TextStyle(
+              color: Color(0xFFE63B3B),
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.italic,
+              fontSize: 20,
+            ),
+          ),
+        ],
+      ),
+      elevation: 0.0,
+    );
+  }
+  // AppBar Method Ends
 }
 
 class CategoryCard extends StatelessWidget {
@@ -132,39 +136,37 @@ class CategoryCard extends StatelessWidget {
       onTap: () {
         //Navigator.push(context, route)
       },
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 12.0),
-          child: Stack(
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  image,
-                  height: 72.0,
-                  width: 128.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                image,
                 height: 72.0,
                 width: 128.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color(0x301A1A1A),
-                ),
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.0,
-                  ),
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: 72.0,
+              width: 128.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Color(0x301A1A1A),
+              ),
+              child: Text(
+                name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14.0,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -183,7 +185,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16.0),
+      margin: EdgeInsets.only(top: 16),
       child: Column(
         children: <Widget>[
           //
