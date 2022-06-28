@@ -29,8 +29,20 @@ List<CategoryModel> getCategory() {
   type = new CategoryModel();
 
   //---5---
-  type.categoryname = "Celebrity";
-  type.imagename = "Assets/images/celebrity.jpeg";
+  type.categoryname = "Technology";
+  type.imagename = "Assets/images/tech.jpeg";
+  array.add(type);
+  type = new CategoryModel();
+
+  //---6---
+  type.categoryname = "Health";
+  type.imagename = "Assets/images/Health.jpeg";
+  array.add(type);
+  type = new CategoryModel();
+
+  //---7---
+  type.categoryname = "Science";
+  type.imagename = "Assets/images/science.jpeg";
   array.add(type);
   type = new CategoryModel();
 
