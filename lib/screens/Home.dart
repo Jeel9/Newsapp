@@ -3,6 +3,8 @@ import 'package:news_app/helper/data.dart';
 import 'package:news_app/helper/news.dart';
 import 'package:news_app/models/article_model.dart';
 import 'package:news_app/models/category_model.dart';
+import 'package:news_app/screens/Article.dart';
+import 'package:news_app/screens/Category.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   List<CategoryModel> arr = <CategoryModel>[];
   List<ArticleModel> arr2 = <ArticleModel>[];
 
-  bool _loading = false;
+  bool _loading = true;
 
   getNews() async {
     News newsclass = News();
@@ -81,6 +83,7 @@ class _HomePageState extends State<HomePage> {
                           image: arr2[i].imageurl,
                           title: arr2[i].title,
                           desc: arr2[i].desc,
+                          url: arr2[i].url,
                         );
                       },
                     ),
@@ -94,11 +97,12 @@ class _HomePageState extends State<HomePage> {
   // --- AppBar Method ---
   AppBar newAppBar() {
     return AppBar(
+      centerTitle: false,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Super",
+            "News",
             style: TextStyle(
               color: Color(0xFF1A1A1A),
               fontStyle: FontStyle.italic,
@@ -106,11 +110,11 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Text(
-            "News",
+            "Buddy",
             style: TextStyle(
               color: Color(0xFFE63B3B),
               fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.italic,
+              //fontStyle: FontStyle.italic,
               fontSize: 20,
             ),
           ),
@@ -134,7 +138,14 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //Navigator.push(context, route)
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryPage(
+              category: name.toLowerCase(),
+            ),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 16),
@@ -174,65 +185,72 @@ class CategoryCard extends StatelessWidget {
 }
 
 class NewsCard extends StatelessWidget {
-  final String image, title, desc;
+  final String image, title, desc, url;
 
   NewsCard({
     required this.image,
     required this.title,
     required this.desc,
+    required this.url,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 16),
-      child: Column(
-        children: <Widget>[
-          //
-          //--Card Box--
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-
-            //
-            //--Content Column--
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(image),
-                  ),
-                  //--Padding--
-                  SizedBox(height: 12),
-                  //
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Color(0xFF1A1A1A),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                    ),
-                  ),
-                  //--Padding--
-                  SizedBox(height: 8),
-                  //
-                  Text(
-                    desc,
-                    style: TextStyle(
-                      color: Color(0xFF4F4F4F),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ArticlePage(
+                blogurl: url,
               ),
             ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
           ),
-        ],
+
+          //
+          //--Content Column--
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(image),
+                ),
+                //--Padding--
+                SizedBox(height: 12),
+                //
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Color(0xFF1A1A1A),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                //--Padding--
+                SizedBox(height: 8),
+                //
+                Text(
+                  desc,
+                  style: TextStyle(
+                    color: Color(0xFF4F4F4F),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
